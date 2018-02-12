@@ -7,6 +7,8 @@
 
 <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,25 +23,28 @@
     <title>Online Shopping - ${title}</title>
 
 	<script>
-		window.menu='${title}';
+	window.menu = '${title}';
 	</script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${css}/bootstrap-readable-theme.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
 	<link rel="stylesheet" href="${css}/myapp.css"/>
 	
-	<!-- Self coded javascript -->
-	<script src="${js}/myapp.js"></script>
 	
 </head>
 
 <body>
 
+	<div class="wrapper">
+
     <!-- Navigation -->
     <%@include file="./shared/navbar.jsp" %>
     
     <!-- Page Content -->
+    <div class="content">
     <c:if test="${userClicksHome==true}">
     	<%@include file="home.jsp"%>
 	</c:if>
@@ -49,12 +54,15 @@
 	 <c:if test="${userClickContact==true}">
     	<%@include file="contact.jsp"%>
 	</c:if>
+	</div>
 	
     <!-- /.container -->
 	<%@include file="./shared/footer.jsp" %>
-
 	
-
+	<!-- Self coded javascript -->
+		<script src="${js}/myapp.js"></script>	
+	
+	</div>
 </body>
 
 </html>
