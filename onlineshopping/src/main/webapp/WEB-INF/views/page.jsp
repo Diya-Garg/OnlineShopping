@@ -1,4 +1,6 @@
+
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:url var="css" value="/resources/css"/>
@@ -26,6 +28,8 @@
 	window.menu = '${title}';
 	</script>
 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${css}/bootstrap-readable-theme.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -38,10 +42,15 @@
 
 <body>
 
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<jsp:forward page="/admin/Home"/>
+	</sec:authorize>
+
 	<div class="wrapper">
 
     <!-- Navigation -->
-    <%@include file="./shared/navbar.jsp" %>
+    <jsp:include page="./shared/navbar.jsp"/>
+   
     
     <!-- Page Content -->
     <div class="content">
