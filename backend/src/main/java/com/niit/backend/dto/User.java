@@ -1,7 +1,13 @@
 package com.niit.backend.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 
@@ -13,10 +19,21 @@ public class User {
 	private String email;
 	private String name;
 	private String password;
-	private String address;
+	private Address address;
 	private String phone;
 	private String role;
 	private boolean enabled;
+	
+	@ElementCollection
+	@JoinTable(name="UserAddressTable",joinColumns=@JoinColumn(name="email"))
+	private Set<Address> addresss=new HashSet<>();
+	
+	public Set<Address> getAddresss() {
+		return addresss;
+	}
+	public void setAddresss(Set<Address> addresss) {
+		this.addresss = addresss;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -35,10 +52,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	public String getPhone() {

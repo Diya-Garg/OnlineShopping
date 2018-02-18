@@ -1,6 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
+<spring:url var="images" value="/resources/images"/>
 
  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -64,6 +67,7 @@
       				 </li>
       				 </c:if> 
       				<c:if test="${pageContext.request.userPrincipal.name!=null}">
+      					
       					<li class="nav1options">	
       					<a href="#" class="nav1options">
             	    		<c:out value="${pageContext.request.userPrincipal.name}"/>
@@ -71,15 +75,25 @@
       						
                 	
       					</li>	
+      					
       					<li>
             	    	<a href="${contextRoot}/perform-logout" class="nav1options">
             	    		<span class="glyphicon glyphicon-log-out"></span> Log Out
             	    		</a>
             	   	 	</li>	
+            	   	 	
+            	   	 	
       				</c:if>
+      				 	<li>
+            	   	 		<a href="" class="nav1options">
+            	   	 			<img src="${images}/MyCart.png" style="height:40px;width: 60px "/>
+            	   	 		</a>
+            	   	 	</li>
+            	   	
       				</ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
    </nav> 
+<br/>

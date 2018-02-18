@@ -141,7 +141,7 @@ public class AdminController {
 		
 		String filePathString=request.getSession().getServletContext().getRealPath("/");
 		String fileName=file.getOriginalFilename();
-		System.out.println(fileName);
+		System.out.println("File Name : "+fileName);
 		
 		product.setImgname(fileName);
 		
