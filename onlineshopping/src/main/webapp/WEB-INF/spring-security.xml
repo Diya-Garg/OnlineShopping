@@ -17,6 +17,8 @@
 	
 	<http>
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/cart/**" access="hasRole('ROLE_USER')"/>
+		
 		<form-login login-page="/login"
 		username-parameter="username"
 		password-parameter="password"
@@ -24,8 +26,7 @@
 		authentication-failure-forward-url="/error"
 		/>
 		
-		<!-- <access-denied-handler error-page="/error"/> -->
-		
+		<access-denied-handler error-page="/access-denied"/>
 		
 	</http>
 

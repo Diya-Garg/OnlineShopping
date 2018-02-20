@@ -3,11 +3,15 @@ package com.niit.backend.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -19,20 +23,23 @@ public class User {
 	private String email;
 	private String name;
 	private String password;
-	private Address address;
+	
 	private String phone;
 	private String role;
 	private boolean enabled;
 	
-	@ElementCollection
-	@JoinTable(name="UserAddressTable",joinColumns=@JoinColumn(name="email"))
-	private Set<Address> addresss=new HashSet<>();
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL,mappedBy="user")
+	private Set<Address> addresses=new HashSet<Address>();
 	
-	public Set<Address> getAddresss() {
-		return addresss;
+	
+	
+	
+	
+	public Set<Address> getAddresses() {
+		return addresses;
 	}
-	public void setAddresss(Set<Address> addresss) {
-		this.addresss = addresss;
+	public void setAddresses(Set<Address> addresses) {
+		this.addresses = addresses;
 	}
 	public String getEmail() {
 		return email;
@@ -52,12 +59,7 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+	
 	public String getPhone() {
 		return phone;
 	}

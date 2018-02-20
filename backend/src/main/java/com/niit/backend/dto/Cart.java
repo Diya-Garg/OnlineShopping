@@ -30,6 +30,7 @@ public class Cart {
 	private int cartQuantity; //no. of products added in cart against a particular pid
 	private String cartImage; //product image in cart
 	private String cartProductName; //productname
+	private String status;
 	
 	public Cart(){
 		
@@ -100,6 +101,15 @@ public class Cart {
 	public void setCartProductName(String cartProductName) {
 		this.cartProductName = cartProductName;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+		
 	
 	
 }

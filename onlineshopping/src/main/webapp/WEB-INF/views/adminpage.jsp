@@ -40,9 +40,11 @@
 
 	<div class="wrapper">
 
+	
     <!-- Navigation -->
     	<jsp:include page="./shared/navbar.jsp"/>
 
+	<br/>
     <!-- Page Content -->
     <div class="content">
 		<div class="container" style="padding-top: 20px">

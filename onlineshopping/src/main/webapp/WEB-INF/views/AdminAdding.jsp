@@ -42,10 +42,12 @@
 
 <div class="wrapper">
 
+	
 <!-- Navigation -->
     <jsp:include page="./shared/navbar.jsp"/>
    
     
+    <br/>
     <!-- Page Content -->
    	
 		<!-- <div class="container1" align="center" >

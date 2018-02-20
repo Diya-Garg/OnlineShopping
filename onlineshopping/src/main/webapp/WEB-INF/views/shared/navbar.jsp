@@ -51,12 +51,38 @@
                     </sec:authorize>
                     
                     
+                    <sec:authorize access="hasRole('ROLE_USER')" >
+                	
+                    <li>
+                        <a href="${contextRoot}/about">About Us</a>
+                    </li>
+                    
+                    <li>
+                        <a href="${contextRoot}/contact">Contact</a>
+                    </li>
+                    
+                    <li>
+                        <a href="${contextRoot}/listProducts">View Products</a>
+                    </li>
+                    <li>
+                     		<a href="${contextRoot}/cart/viewCart" class="nav1options">
+            	   	 			<img src="${images}/MyCart.png" style="height:40px;width: 60px "/>
+            	   	 		</a>
+            	   	</li>
+                    
+                    
+                    </sec:authorize>
+                    
+                    
+                    
+                    
+                    
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 <%-- <c:out value="${pageContext.request.userPrincipal.name}"/> --%>
                 	<c:if test="${pageContext.request.userPrincipal.name==null}">
             	    <li>
-            	    	<a href="#" class="nav1options">
+            	    	<a href="${contextRoot}/getSignUpForm" class="nav1options">
             	    		<span class="glyphicon glyphicon-user"></span> Sign Up
             	    	</a>
             	    </li>
@@ -84,16 +110,10 @@
             	   	 	
             	   	 	
       				</c:if>
-      				 	<li>
-            	   	 		<a href="" class="nav1options">
-            	   	 			<img src="${images}/MyCart.png" style="height:40px;width: 60px "/>
-            	   	 		</a>
-            	   	 	</li>
-            	   	
+      				
       				</ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
    </nav> 
-<br/>

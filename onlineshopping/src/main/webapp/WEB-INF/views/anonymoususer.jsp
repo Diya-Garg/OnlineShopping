@@ -48,7 +48,7 @@
     <!-- Navigation -->  
     <jsp:include page="./shared/navbar.jsp"/>
    
-    
+    <br/>
     <!-- Page Content -->
     <div class="content">
     
@@ -102,17 +102,20 @@
     			
     			
     			<c:if test="${message=='ViewProductDetails'}">
+    				
     				<h1>Product Details : </h1>
     				<div class="row">
     					<div class="col-sm-3" align="center">
     						<img  src="${images}/${productObj.imgname}" style="height:200px;width:200px "/>
     					</div>
     					<div class="col-sm-6">
-    						<div class="table-responsive"> 
+    						<div class="table-responsive">
+    						<form action="${contextRoot}/cart/addToCart"> 
     					<table class="table table-striped table-borderd">
     						<tr>
     							<td>Product Name : </td>
     							<td>${productObj.productName}</td>
+    							<td><input type="hidden" value="${productObj.productId}" name="prodid"/></td>
     						</tr>
     						<tr>
     							<td>Description : </td>
@@ -139,20 +142,111 @@
     							<td>Supplier</td>
     							<td>${productObj.supplier.supplierName}</td>
     						</tr>
-    						
     						<tr>
-    							<td><a href="addToCart?prodid=${productObj.productId}" class="btn btn-primary">Add to Cart</a></td>
+    							<td>Select Quantity</td>
+    							<td>
+    								<select name="quantity">
+    								<c:forEach begin="1" end="${productObj.quantity}" var="i">
+    									<option value="${i}">${i}</option>
+    								</c:forEach>
+    								</select>
+    								
+    								
+    							</td>
     						</tr>
     						
-    					</table> 
+    						<tr>
+    							<c:if test="${productObj.quantity==0}">
+    								<td>Out Of Stock !!!</td>
+    							</c:if>
+    							<c:if test="${productObj.quantity!=0}">
+    								
+    								<td><input type="submit" class="btn btn-primary" value="Add to Cart"/></td>
+    							</c:if>
+    						</tr>
+    						
+    					</table>
+    					</form>
+    					 
     				</div>
     					</div>
     				</div>	
     				 
     			</c:if>
     			
+    			
+    			<c:if test="${message=='Item added in cart'||message=='Cart Updated'||message=='Your Cart'||message=='Item Removed'}">
+    				<h1>${message} ...</h1>
+    				<img src="${images}/YourCart.jpg" style="height:150px;width: 150px "/><br/>
+    				<div class="table-responsive">
+    				<form action="${contextRoot}/cart/processCart">
+    				<table  class="table table-striped table-borderd">
+    					<thead style="background-color:blue">
+    						<tr>
+    							<td>Product Name</td>
+    							<td>Product Image</td>
+    							<td>Price</td>
+    							<td>Quantity</td>
+    							<td>Remove Item</td>
+    							<td>Update Item</td>
+    						</tr>
+    					</thead>
+    					<tbody>
+    						<c:forEach items="${cart}" var="cartObj">
+    							<tr>
+    								<td>${cartObj.cartProductName}</td>
+    								<input type="hidden" name="cartId" value="${cartObj.cartId}">
+    								<td>
+    								<img src="${images}/${cartObj.cartImage}" style="height:40px;width:40px "/>
+    								</td>
+    								<td>${cartObj.cartPrice}</td>
+    								<td><input type="text" value="${cartObj.cartQuantity}" name="quantity"/></td>
+    								
+    								<td>
+    									<button type="submit" name="btn1" style="border-style: none;">
+    										<img src="${images}/remove.png" alt="submit" style="height: 40px;width: 40px">
+										</button>
+    								</td>
+    								<td>
+    									<button type="submit" name="btn2" style="border-style: none;">
+    										<img src="${images}/updateCart.jpg" alt="submit" style="height: 40px;width: 40px">
+										</button>
+    								</td>
+    							</tr>
+    							
+    						</c:forEach>
+    							<tr>
+    								<td>Total Amount to Pay : </td>
+    								<td>Rs . ${amountToPay}</td>
+    							</tr>	
+    							<tr>
+    								<td><a href="${contextRoot}/listProducts" class="btn btn-primary">Continue Shopping</a></td>
+    								<td><a href="${contextRoot}/cart/checkOut" class="btn btn-primary">Check Out</a></td>
+    							</tr>
+    					</tbody>
+    				</table>
+    				</form>
+    				</div> 
+    			</c:if>
+    			
     </div>
     
+    <!-- @Id
+	@GeneratedValue
+	private int cartId;
+	
+	private int cardProductId; //productId fetched from product entity and put into cart entity
+	
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="userMailId")
+	private User cartUserDetails; //this object will be used in ur shipping.jsp
+	
+	
+	private double cartPrice; //product price added in cart
+	private int cartQuantity; //no. of products added in cart against a particular pid
+	private String cartImage; //product image in cart
+	private String cartProductName; //productname -->
 	
     <!-- /.container -->
 	<%@include file="./shared/footer.jsp" %>
