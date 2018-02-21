@@ -8,7 +8,7 @@
                  <p class="lead">Select Category</p> 
                 <div class="list-group">
                 	<c:forEach items="${categories}" var="category">
-                		<a href="#" class="list-group-item active">${category.categoryName}</a>
+                		<a href="listProducts?category=${category.categoryName}" class="list-group-item active">${category.categoryName}</a>
                 	</c:forEach>
                     
                 </div>

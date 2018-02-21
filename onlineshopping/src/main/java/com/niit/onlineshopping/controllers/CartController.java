@@ -1,6 +1,7 @@
 package com.niit.onlineshopping.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import com.niit.backend.dao.ProductDao;
 import com.niit.backend.dao.UserDao;
 import com.niit.backend.dto.Address;
 import com.niit.backend.dto.Cart;
+import com.niit.backend.dto.Order;
 import com.niit.backend.dto.Product;
 import com.niit.backend.dto.User;
 
@@ -46,6 +48,8 @@ public class CartController {
 		System.out.println("PRoduct Id :" +prodid); 
 		
 		
+		ModelAndView mv=new ModelAndView("anonymoususer");
+		
 		//String email=principal.getName();
 		String email=(String)session.getAttribute("email");
 		
@@ -55,6 +59,31 @@ public class CartController {
 		
 		session.setAttribute("userEmail", email);
 		
+		
+		if(cartDao.checkIfProductIsAvailable(email, "Not Paid", Integer.parseInt(prodid))){
+			System.out.println("I m in if");
+			
+			
+			int actualProductCount=productDao.getQuantity(Integer.parseInt(prodid));
+			int askedProducts=cartDao.getProductCount(Integer.parseInt(prodid), email, Integer.parseInt(quantity));
+			
+			System.out.println("Actual Product Count : "+actualProductCount);
+			System.out.println("Asked Product Count : "+askedProducts);
+			
+			if(askedProducts>actualProductCount){
+				
+				System.out.println("In If");
+				mv.addObject("message","Number of asked products is greater than the actual no. of Product in the stock.Try Again");
+			}
+			else {
+				System.out.println("In Else");
+				cartDao.updateProductCount(Integer.parseInt(prodid), email, Integer.parseInt(quantity));
+				mv.addObject("message","Item added in cart");
+			}
+			
+		}
+		else {
+		System.out.println("I m in else");
 		Cart cartObj=new Cart();
 		cartObj.setCardProductId(product.getProductId());
 		cartObj.setCartImage(product.getImgname());
@@ -65,10 +94,11 @@ public class CartController {
 		cartObj.setStatus("Not Paid");
 		
 		cartDao.addItem(cartObj);
-		
-		
-		ModelAndView mv=new ModelAndView("anonymoususer");
 		mv.addObject("message","Item added in cart");
+		}
+		
+		
+		
 		mv.addObject("title","Cart");
 		mv.addObject("cart",cartDao.getAllItemsForUser(email));
 		mv.addObject("amountToPay",cartDao.calculateTotal(email));
@@ -81,23 +111,10 @@ public class CartController {
 		ModelAndView mv=new ModelAndView("anonymoususer");
 		
 		int cartId=Integer.parseInt(request.getParameter("cartId"));
-		String btn1=request.getParameter("btn1");
-		String btn2=request.getParameter("btn2");
-		int quantity=Integer.parseInt(request.getParameter("quantity"));
 		String email=(String)session.getAttribute("email");
 		
-		if(btn1!=null){
-			
-			//do the Remove
 			cartDao.deleteCart(cartId);
 			mv.addObject("message","Item Removed");
-		}
-		if(btn2!=null){
-			
-			//do the Update
-			cartDao.updateCart(cartId, quantity);
-			mv.addObject("message","Cart Updated");
-		}
 		
 		
 		mv.addObject("title","Cart");
@@ -121,8 +138,35 @@ public class CartController {
 		
 		//String email=principal.getName();
 		String email=(String)session.getAttribute("email");
-		
 		ModelAndView mv=new ModelAndView("anonymoususer");
+		
+		//int actualProductCount=productDao.getQuantity(Integer.parseInt(prodid));
+		//int askedProducts=cartDao.getProductCount(Integer.parseInt(prodid), email, Integer.parseInt(quantity));
+		
+		List<Cart> cartList=cartDao.getAllItemsForUser(email);
+		for(Cart cart:cartList){
+			
+			int actualProductCount=productDao.getQuantity(cart.getCardProductId());
+			int askedProducts=cartDao.getProductCount(cart.getCardProductId(), email, cart.getCartQuantity());
+			
+			System.out.println("Actual Product count : "+actualProductCount);
+			System.out.println("Asked Products : "+askedProducts);
+			
+			if(askedProducts>actualProductCount){
+				System.out.println("Insufficient");
+				mv.addObject("message2","Few Items from the Cart are already purchased by other customers . So removing them from the Cart");
+				
+				//cartList.remove(cart);
+				cartDao.deleteCart(cart.getCartId());
+				
+				
+			}
+			
+			
+		}
+		
+		
+		
 		mv.addObject("title","Cart");
 		mv.addObject("message","Your Cart");
 		mv.addObject("cart",cartDao.getAllItemsForUser(email));
@@ -142,6 +186,7 @@ public class CartController {
 		mv.addObject("userObj",userObj);
 		mv.addObject("message","Select a Delivery Address");
 		mv.addObject("title","CheckOut");
+		
 		return mv;
 	}
 	

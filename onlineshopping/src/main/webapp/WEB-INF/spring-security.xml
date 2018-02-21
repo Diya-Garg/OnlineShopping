@@ -20,10 +20,11 @@
 		<intercept-url pattern="/cart/**" access="hasRole('ROLE_USER')"/>
 		
 		<form-login login-page="/login"
-		username-parameter="username"
+		username-parameter="email"
 		password-parameter="password"
 		login-processing-url="/userLogged"
 		authentication-failure-forward-url="/error"
+		
 		/>
 		
 		<access-denied-handler error-page="/access-denied"/>

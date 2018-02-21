@@ -25,8 +25,10 @@
     <title>Online Shopping - ${title}</title>
 
 	<script>
-	window.menu = '${title}';
+	window.menu = '${title}';	
 	</script>
+	
+	
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -51,47 +53,95 @@
     <br/>
     <!-- Page Content -->
     <div class="content">
-    		<h1>Billing Details</h1>
-    		<div class="table-responsive">
+    
+    				<c:if test="${message=='Show Payment Form'}">
+    				<h1>Make Payment 
+    				 <img src="${images}/visa.svg" style="width:50px;height:50px">
+    				 <img src="${images}/master.svg" style="width:50px;height:50px">
+    				 <img src="${images}/american.svg" style="width:50px;height:50px">
+    				  </h1>
+    				
+    				  <form:form action="${contextRoot}/cart/makePayment" method="POST" class="form-horizontal" id="paymentForm"
+    				  modelAttribute="orderObj">
+    				  
+    				  	<div class="form-group">
+         					 <label for="cardNumber" class="col-md-4 control-label">Card Number</label>
+          					 <div class="col-md-4">
+           						<form:input type="text" class="form-control" placeholder="Valid Card Number" path="cardNumber"/>
+          					</div>
+         				</div>
+         				<div class="form-group">
+         					 <label for="nameOnCard" class="col-md-4 control-label">Name on Card</label>
+          					 <div class="col-md-4">
+           						<form:input type="text" class="form-control" placeholder="Name on  Card" path="nameOnCard"/>
+          					</div>
+         				</div>
+         				<div class="form-group">
+         					 <label for="nameOnCard" class="col-md-4 control-label">Expiration Date</label>
+          					 <div class="col-md-2">
+           						<form:input type="text" class="form-control" placeholder="MM" path="month"/>
+          					</div>
+          					<div class="col-md-2">
+           						<form:input type="text" class="form-control" placeholder="YY" path="year"/>
+          					</div>
+         				</div>
+        				 <div class="form-group">
+         					 <label for="cvv" class="col-md-4 control-label">CVV</label>
+          					 <div class="col-md-4">
+           						<form:input type="text" class="form-control" placeholder="CVV" path="cvv"/>
+          					</div>
+         				</div>
+         				<div class="form-group">
+         					 <label for="cvv" class="col-md-4 control-label">Price</label>
+          					 <div class="col-md-4">
+           						${totalAmount}
+          					</div>
+         				</div>			
+						 <div class="form-group">
+          					<div class="col-md-offset-4 col-md-4">
+      	   					<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+          					<input type="submit" value="Make Payment" class="btn btn-primary"/>
+          				</div>
+    			     </div>	
+				</form:form>
+				</c:if>
+				
+				<c:if test="${message=='Show Invoice'}">
+					<h1>Thank You for Shopping with Us. Please find the invoice : </h1>
+					<div class="table-responsive">
     				<table  class="table table-striped table-borderd">
+    					
     					<tbody>
-    						<tr>
-    							<td> User Name : </td>
-    							<td>${userObj.name}</td>
-							</tr>
-							<tr>
-								<td>Billing Address : </td>
-								<td>
-									House no. ${addressObj.houseNumber} , ${addressObj.locality}<br/>
-    								${addressObj.city} , ${addressObj.state} ${addressObj.pinCode}
-								</td>
-							</tr>
-							<tr>
-								<td>Total Amount : </td>
-								<td>
-									${totalAmount}
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>Enter Cart Details : </td>
-								<td></td>
-							</tr>
-						</tbody>
+    							<tr>
+ 		   							<td>Order Id : </td>
+ 		   							<td>${orderObj.orderId}</td>
+ 		   						</tr>
+    							<tr>
+    								<td>Customer Name :</td>
+    								<td>${orderObj.user.name}</td>
+    							</tr>
+    							<tr>
+    								<td>Billing Address : </td>
+    								<td>
+    									House no. ${orderObj.address.houseNumber} , ${orderObj.address.locality}<br/>
+    									${orderObj.address.city} , ${orderObj.address.state} ${orderObj.address.pinCode}			
+    								</td>
+    							</tr>
+    							<tr>
+    								<td>Total Price : </td>
+    								<td>${orderObj.totalPrice}</td>
+    							</tr>
+    							
+    					</tbody>
     				</table>
-    				
-    				</div> 
-    
-    				
-    </div>
-    
+    			</div>
+    			</c:if>	
+			</div>				
+				
     
     <!-- /.container -->
 	<%@include file="./shared/footer.jsp" %>
-	
+		
 	<!-- Self coded javascript -->
 		<script src="${js}/myapp.js"></script>	
 	

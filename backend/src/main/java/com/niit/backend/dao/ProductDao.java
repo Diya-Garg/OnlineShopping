@@ -12,4 +12,13 @@ public interface ProductDao {
 	boolean deleteProduct(int productId);
 	public Product getProductById(int productId);
 	List<Product> getProducts();
+	List<Product> getProducts(String category);
+	
+	int getQuantity(int productId);
+	void updateQuantity(int productId,int newQuantity);
+	
+	
+
 }
+
+

@@ -61,9 +61,16 @@
                         <a href="${contextRoot}/contact">Contact</a>
                     </li>
                     
+                    
                     <li>
                         <a href="${contextRoot}/listProducts">View Products</a>
                     </li>
+                    
+                    <li>
+                        <a href="${contextRoot}/changePassword">Change Password</a>
+                    </li>
+                    
+                    
                     <li>
                      		<a href="${contextRoot}/cart/viewCart" class="nav1options">
             	   	 			<img src="${images}/MyCart.png" style="height:40px;width: 60px "/>
@@ -94,10 +101,13 @@
       				 </c:if> 
       				<c:if test="${pageContext.request.userPrincipal.name!=null}">
       					
+      					
+      					
+      					
       					<li class="nav1options">	
       					<a href="#" class="nav1options">
             	    		<c:out value="${pageContext.request.userPrincipal.name}"/>
-            	    		</a>
+            	    	</a>
       						
                 	
       					</li>	

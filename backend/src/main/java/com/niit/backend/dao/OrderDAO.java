@@ -1,5 +1,9 @@
 package com.niit.backend.dao;
 
-public interface OrderDAO {
+import com.niit.backend.dto.Order;
 
+
+public interface OrderDAO {
+	
+	public int makeOrder(Order order);
 }

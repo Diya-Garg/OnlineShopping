@@ -12,8 +12,17 @@ public interface CartDAO {
 	public List<Cart> getAllItemsForUser(String emailID);
 	
 	//will update the quantity
-	public void updateCart(int cartId,int quantity);
+	//public void updateCart(int cartId,int quantity);
 	public void deleteCart(int cartId);
 	public double calculateTotal(String email);
+	
+	public void updateProductCount(int productId,String userId,int newQuantity);
+	public boolean checkIfProductIsAvailable(String userId,String status,int productId);
+	
+	
+	public int getProductCount(int productId,String userId,int newQuantity);
+	
+	
+	public void changeStatus(String email); 
 	
 }

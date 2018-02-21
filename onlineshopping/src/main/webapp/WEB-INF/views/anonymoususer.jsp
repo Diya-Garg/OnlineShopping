@@ -175,11 +175,24 @@
     			</c:if>
     			
     			
-    			<c:if test="${message=='Item added in cart'||message=='Cart Updated'||message=='Your Cart'||message=='Item Removed'}">
+    			<c:if test="${message=='Item added in cart'||message=='Your Cart'||message=='Item Removed'}">
+    				
+    				<c:if test="${message2=='Few Items from the Cart are already purchased by other customers . So removing them from the Cart'}">
+		<div class="row">
+			<div class="col-xs-12 col-md-offset-2 col-md-8">
+				<div class="alert alert-danger fade in">${message2}</div>
+			</div>
+		</div>
+	</c:if>
+	
+	
     				<h1>${message} ...</h1>
+    				
+    				
+    				
     				<img src="${images}/YourCart.jpg" style="height:150px;width: 150px "/><br/>
     				<div class="table-responsive">
-    				<form action="${contextRoot}/cart/processCart">
+    				
     				<table  class="table table-striped table-borderd">
     					<thead style="background-color:blue">
     						<tr>
@@ -188,33 +201,32 @@
     							<td>Price</td>
     							<td>Quantity</td>
     							<td>Remove Item</td>
-    							<td>Update Item</td>
+    							
     						</tr>
     					</thead>
     					<tbody>
+    						
     						<c:forEach items="${cart}" var="cartObj">
     							<tr>
     								<td>${cartObj.cartProductName}</td>
-    								<input type="hidden" name="cartId" value="${cartObj.cartId}">
+    								
     								<td>
     								<img src="${images}/${cartObj.cartImage}" style="height:40px;width:40px "/>
     								</td>
     								<td>${cartObj.cartPrice}</td>
-    								<td><input type="text" value="${cartObj.cartQuantity}" name="quantity"/></td>
+    								<td>${cartObj.cartQuantity}</td>
     								
     								<td>
-    									<button type="submit" name="btn1" style="border-style: none;">
+    									<a href="${contextRoot}/cart/processCart?cartId=${cartObj.cartId}">
     										<img src="${images}/remove.png" alt="submit" style="height: 40px;width: 40px">
-										</button>
+										</a>
     								</td>
-    								<td>
-    									<button type="submit" name="btn2" style="border-style: none;">
-    										<img src="${images}/updateCart.jpg" alt="submit" style="height: 40px;width: 40px">
-										</button>
-    								</td>
+    								
     							</tr>
     							
     						</c:forEach>
+    						
+    						
     							<tr>
     								<td>Total Amount to Pay : </td>
     								<td>Rs . ${amountToPay}</td>
@@ -225,8 +237,16 @@
     							</tr>
     					</tbody>
     				</table>
-    				</form>
+    				
     				</div> 
+    			</c:if>
+    			
+    			<c:if test="${message=='Number of asked products is greater than the actual no. of Product in the stock.Try Again'}">
+    				<div class="row">
+			<div class="col-xs-12 col-md-offset-2 col-md-8">
+				<div class="alert alert-danger fade in">${message}</div>
+			</div>
+		</div>
     			</c:if>
     			
     </div>

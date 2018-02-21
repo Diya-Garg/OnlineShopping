@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.niit.backend.dao.CategoryDao;
+import com.niit.backend.dto.User;
 
 
 @Controller
@@ -48,9 +49,11 @@ public class PageController {
 		return mv;
 	}
 	
-	@RequestMapping(value={"goToLogin"})
+	@RequestMapping(value={"/goToLogin"})
 	public ModelAndView goToLogin(){
 		ModelAndView mv=new ModelAndView("login");
+		mv.addObject("title","Login Page");
+		mv.addObject("userObj",new User());
 		return mv;
 	}
 	
